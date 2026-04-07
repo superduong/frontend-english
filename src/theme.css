@@ -1,0 +1,17 @@
+/* Tổng hợp palette: italki/Preply (đỏ/hồng), AmazingTalker (coral), Lingoda (tối + magenta), Cambly (vàng nhấn) */
+:root {
+  --color-ink: #0f172a;
+  --color-muted: #64748b;
+  --color-coral: #e63946;
+  --color-coral-dark: #c1121f;
+  --color-magenta: #d63384;
+  --color-teal: #0d9488;
+  --color-teal-dark: #0f766e;
+  --color-gold: #f5b700;
+  --color-hero-dark: #0c1929;
+  --color-hero-mid: #132238;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --shadow-soft: 0 4px 24px rgb(15 23 42 / 8%);
+  --font-display: "Outfit", "Be Vietnam Pro", system-ui, sans-serif;
+}

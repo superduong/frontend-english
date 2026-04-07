@@ -1,0 +1,235 @@
+.tutors-page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 1rem 1.25rem 3rem;
+}
+
+.tutors-hero {
+  margin-bottom: 1.75rem;
+}
+
+.tutors-hero__title {
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5rem;
+  color: var(--color-ink);
+}
+
+.tutors-hero__sub {
+  margin: 0 0 1.25rem;
+  color: var(--color-muted);
+  font-size: 1rem;
+}
+
+.tutors-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 480px;
+  padding: 0.5rem 1rem;
+  background: #fff;
+  border-radius: var(--radius-xl);
+  border: 1px solid #e2e8f0;
+  box-shadow: var(--shadow-soft);
+}
+
+.tutors-filter__icon {
+  width: 22px;
+  height: 22px;
+  opacity: 0.45;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'/%3E%3C/svg%3E")
+    center/contain no-repeat;
+}
+
+.tutors-filter input {
+  flex: 1;
+  border: none;
+  font-size: 1rem;
+  outline: none;
+  min-width: 0;
+}
+
+.tutors-flash {
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-lg);
+  margin-bottom: 1rem;
+  font-size: 0.92rem;
+}
+
+.tutors-flash--ok {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+.tutors-flash--err {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.tutors-grid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .tutors-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1000px) {
+  .tutors-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.tutor-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+}
+
+.tutor-card__photo {
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: rgb(255 255 255 / 92%);
+}
+
+.tutor-card__body {
+  padding: 1.15rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tutor-card__body h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+  line-height: 1.3;
+  color: var(--color-ink);
+}
+
+.tutor-card__body p {
+  margin: 0 0 1rem;
+  flex: 1;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+.tutor-card__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.tutor-card__price {
+  font-weight: 800;
+  color: var(--color-coral);
+}
+
+.tutor-card__book {
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-coral);
+  color: #fff;
+  cursor: pointer;
+}
+
+.tutor-card__book:hover {
+  background: var(--color-coral-dark);
+}
+
+.tutor-card__book--link {
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
+}
+
+.tutors-empty {
+  text-align: center;
+  color: var(--color-muted);
+  padding: 2rem;
+}
+
+.tutors-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgb(15 23 42 / 45%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.tutors-modal__panel {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: 1.35rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 24px 64px rgb(0 0 0 / 18%);
+}
+
+.tutors-modal__panel h2 {
+  margin: 0 0 1rem;
+  font-size: 1.15rem;
+}
+
+.tutors-form label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0.35rem;
+}
+
+.tutors-form input,
+.tutors-form textarea {
+  width: 100%;
+  margin-bottom: 0.85rem;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+}
+
+.tutors-modal__actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.tutors-modal__cancel {
+  font-family: inherit;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  cursor: pointer;
+}
+
+.tutors-modal__cancel:hover {
+  background: #f1f5f9;
+}
