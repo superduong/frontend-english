@@ -9,12 +9,16 @@ import {
 import "./App.css";
 import { SiteHeader } from "./components/SiteHeader";
 import { LandingPage } from "./pages/LandingPage";
+import { PaymentCallbackPage } from "./pages/PaymentCallbackPage";
 import { TutorsPage } from "./pages/TutorsPage";
 import {
   api,
   formatDt,
   formatVnd,
   type Booking,
+  type PaymentCheckout,
+  type PaymentProviderId,
+  type PaymentProviderItem,
   type User,
 } from "./api";
 
@@ -174,6 +178,9 @@ function BookingsPage() {
   const [rows, setRows] = useState<Booking[]>([]);
   const [err, setErr] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
+  const [providers, setProviders] = useState<PaymentProviderItem[]>([]);
+  const [payMethod, setPayMethod] = useState<PaymentProviderId | "">("");
+  const [qrModal, setQrModal] = useState<PaymentCheckout | null>(null);
 
   const load = useCallback(async () => {
     try {
@@ -188,16 +195,57 @@ function BookingsPage() {
     load();
   }, [load]);
 
+  useEffect(() => {
+    api<{ providers: PaymentProviderItem[] }>("/payments/providers")
+      .then((r) => setProviders(r.providers.filter((p) => p.enabled)))
+      .catch(() => setProviders([]));
+  }, []);
+
+  useEffect(() => {
+    if (!payMethod && providers.length) {
+      const d =
+        providers.find((p) => p.id === "mock") ?? providers[0];
+      setPayMethod(d.id);
+    }
+  }, [providers, payMethod]);
+
   async function pay(bookingId: number) {
     setErr(null);
     setInfo(null);
+    setQrModal(null);
+    if (!payMethod) {
+      setErr("Chọn phương thức thanh toán.");
+      return;
+    }
     try {
-      const c = await api<{ payment_id: number }>(
+      const c = await api<PaymentCheckout>(
         `/payments/bookings/${bookingId}/checkout`,
-        { method: "POST" }
+        {
+          method: "POST",
+          body: JSON.stringify({ provider: payMethod }),
+        }
       );
-      await api(`/payments/${c.payment_id}/confirm-mock`, { method: "POST" });
-      setInfo("Thanh toán thử thành công — buổi học đã xác nhận.");
+
+      if (c.redirect_url) {
+        window.location.href = c.redirect_url;
+        return;
+      }
+
+      if (c.qr_image_url) {
+        setQrModal(c);
+        setInfo(c.message_vi);
+        await load();
+        return;
+      }
+
+      if (c.mock_mode) {
+        await api(`/payments/${c.payment_id}/confirm-mock`, { method: "POST" });
+        setInfo("Thanh toán thử thành công — buổi học đã xác nhận.");
+        await load();
+        return;
+      }
+
+      setInfo(c.message_vi || "Đã tạo giao dịch.");
       await load();
     } catch (e: unknown) {
       setErr(e instanceof Error ? e.message : "Lỗi thanh toán");
@@ -210,12 +258,49 @@ function BookingsPage() {
         <div className="card">
           <h2>Lịch học của tôi</h2>
           <p className="muted">
-            «Chờ thanh toán»: mô phỏng Momo/ZaloPay — tích hợp thật qua webhook sau.
+            Chọn phương thức: VNPay, MoMo, ZaloPay, QR VietQR (chuyển khoản), hoặc thử nghiệm khi bật mock.
           </p>
+          {providers.length > 0 && (
+            <label className="form" style={{ display: "block", marginBottom: "1rem" }}>
+              <span className="muted">Phương thức thanh toán</span>
+              <select
+                className="form"
+                style={{ marginTop: "0.35rem", width: "100%", maxWidth: "28rem" }}
+                value={payMethod}
+                onChange={(e) => setPayMethod(e.target.value as PaymentProviderId)}
+              >
+                {providers.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
           {err && <div className="error">{err}</div>}
           {info && (
             <div className="card" style={{ background: "#ecfdf5", marginBottom: "1rem" }}>
               {info}
+            </div>
+          )}
+
+          {qrModal?.qr_image_url && (
+            <div className="card" style={{ marginBottom: "1rem" }}>
+              <h3 style={{ marginTop: 0 }}>Quét QR chuyển khoản</h3>
+              <p className="muted">{qrModal.message_vi}</p>
+              <img
+                src={qrModal.qr_image_url}
+                alt="VietQR"
+                style={{ maxWidth: "min(280px, 100%)", display: "block" }}
+              />
+              <button
+                type="button"
+                className="btn"
+                style={{ marginTop: "0.75rem" }}
+                onClick={() => setQrModal(null)}
+              >
+                Đóng
+              </button>
             </div>
           )}
 
@@ -241,7 +326,7 @@ function BookingsPage() {
                           className="btn btn-primary"
                           onClick={() => pay(b.id)}
                         >
-                          Thanh toán thử
+                          Thanh toán
                         </button>
                       </>
                     )}
@@ -298,6 +383,7 @@ export default function App() {
       />
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/payment/callback" element={<PaymentCallbackPage />} />
         <Route path="/tutors" element={<TutorsPage token={token} />} />
         <Route
           path="/login"

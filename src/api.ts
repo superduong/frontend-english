@@ -5,6 +5,9 @@
 const BASE =
   import.meta.env.VITE_API_URL?.replace(/\/$/, "") ?? "/api";
 
+/** Base URL backend (dev: `/api` qua proxy Vite). */
+export const API_BASE = BASE;
+
 function authHeaders(): HeadersInit {
   const t = localStorage.getItem("token");
   const h: HeadersInit = { "Content-Type": "application/json" };
@@ -62,6 +65,20 @@ export type Booking = {
   created_at: string;
 };
 
+export type PaymentProviderId =
+  | "mock"
+  | "vnpay"
+  | "momo"
+  | "zalopay"
+  | "bank_qr";
+
+export type PaymentProviderItem = {
+  id: PaymentProviderId;
+  label: string;
+  kind: "mock" | "redirect" | "qr";
+  enabled: boolean;
+};
+
 export type PaymentCheckout = {
   payment_id: number;
   booking_id: number;
@@ -69,6 +86,8 @@ export type PaymentCheckout = {
   provider: string;
   mock_mode: boolean;
   message_vi: string;
+  redirect_url?: string | null;
+  qr_image_url?: string | null;
 };
 
 export function formatVnd(n: number) {
