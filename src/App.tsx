@@ -22,11 +22,12 @@ function useToken(): [string | null, (t: string | null) => void] {
   const [token, setTok] = useState<string | null>(() =>
     localStorage.getItem("token")
   );
-  const set = (t: string | null) => {
+  // Stable identity — nếu không, refreshMe/useEffect phụ thuộc setToken sẽ chạy mỗi render → spam /auth/me.
+  const set = useCallback((t: string | null) => {
     if (t) localStorage.setItem("token", t);
     else localStorage.removeItem("token");
     setTok(t);
-  };
+  }, []);
   return [token, set];
 }
 
