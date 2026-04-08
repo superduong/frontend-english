@@ -41,7 +41,7 @@ export function LandingPage() {
         <div className="landing-promo" role="region" aria-label="Ưu đãi">
           <span className="landing-promo__icon" aria-hidden />
           <p>
-            <strong>Bản MVP</strong> — Đặt lịch 1-1, thanh toán thử. Momo / ZaloPay
+            <strong>Trải nghiệm ngay </strong> — Nền tảng Uber dành cho English
             tích hợp sau.
           </p>
           <button
@@ -249,7 +249,7 @@ export function LandingPage() {
           <span className="site-header__mark" style={{ flexShrink: 0 }} aria-hidden />
           <div>
             <strong>LinguaOne</strong>
-            <p>MVP học tiếng Anh 1-1 — cảm hứng từ Preply, italki, Cambly, AmazingTalker, Lingoda.</p>
+            <p>MVP học tiếng Anh 1-1 </p>
           </div>
           <Link to="/tutors" className="landing-footer__cta">
             Bắt đầu học
