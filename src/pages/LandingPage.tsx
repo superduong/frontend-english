@@ -41,8 +41,7 @@ export function LandingPage() {
         <div className="landing-promo" role="region" aria-label="Ưu đãi">
           <span className="landing-promo__icon" aria-hidden />
           <p>
-            <strong>Trải nghiệm ngay </strong> — Nền tảng Uber dành cho English
-            tích hợp sau.
+            <strong>Trải nghiệm ngay </strong> — Nền tảng Uber dành cho English.
           </p>
           <button
             type="button"
